@@ -6,9 +6,13 @@ import type { CherryTreePoint } from '../../../entities/cherry-tree/model/types'
 
 type CherryHeatLayerProps = {
   points: CherryTreePoint[]
+  isMobile?: boolean
 }
 
-export function CherryHeatLayer({ points }: CherryHeatLayerProps) {
+export function CherryHeatLayer({
+  points,
+  isMobile = false,
+}: CherryHeatLayerProps) {
   const map = useMap()
 
   useEffect(() => {
@@ -19,8 +23,8 @@ export function CherryHeatLayer({ points }: CherryHeatLayerProps) {
     const heat = L.heatLayer(
       points.map((point) => [point.lat, point.lng, 0.65]),
       {
-        radius: 28,
-        blur: 35,
+        radius: isMobile ? 22 : 28,
+        blur: isMobile ? 28 : 35,
         minOpacity: 0.35,
         maxZoom: 15,
         max: 1,
@@ -40,7 +44,7 @@ export function CherryHeatLayer({ points }: CherryHeatLayerProps) {
     return () => {
       map.removeLayer(heat)
     }
-  }, [map, points])
+  }, [isMobile, map, points])
 
   return null
 }

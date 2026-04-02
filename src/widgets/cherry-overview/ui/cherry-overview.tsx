@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import type { CherryTreeDistrictStat } from '../../../entities/cherry-tree/model/selectors'
 
 type CherryOverviewProps = {
+  className?: string
   pointCount: number
   districtCount: number
   districtStats: CherryTreeDistrictStat[]
@@ -9,9 +10,11 @@ type CherryOverviewProps = {
   status: 'loading' | 'ready' | 'error'
   onSelectDistrict: (district: string | null) => void
   filterSlot?: ReactNode
+  onClose?: () => void
 }
 
 export function CherryOverview({
+  className,
   pointCount,
   districtCount,
   districtStats,
@@ -19,17 +22,33 @@ export function CherryOverview({
   status,
   onSelectDistrict,
   filterSlot,
+  onClose,
 }: CherryOverviewProps) {
   const maxCount = districtStats[0]?.count ?? 1
 
   return (
-    <aside className="h-full overflow-y-auto border-r border-white/10 bg-[#fff5f8]/95 p-6 text-zinc-800 backdrop-blur">
-      <p className="text-xs font-semibold tracking-[0.28em] text-pink-300 uppercase">
-        Real Dataset Heatmap
-      </p>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-950">
-        서울 벚꽃 지도
-      </h1>
+    <aside
+      className={`h-full overflow-y-auto border-r border-white/10 bg-[#fff5f8]/95 p-6 text-zinc-800 backdrop-blur ${className ?? ''}`}
+    >
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold tracking-[0.28em] text-pink-300 uppercase">
+            Real Dataset Heatmap
+          </p>
+          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-950">
+            서울 벚꽃 지도
+          </h1>
+        </div>
+        {onClose ? (
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-full border border-[#ffd6e3] bg-white px-3 py-1 text-sm font-medium text-zinc-600 transition hover:bg-[#fff5f8]"
+          >
+            닫기
+          </button>
+        ) : null}
+      </div>
       <p className="mt-3 text-sm leading-6 text-zinc-600">
         실제 프로젝트에서 추출한 벚꽃 나무 위치 데이터를 불러와 히트맵으로
         표시합니다. 현재 화면은 <code>public/data/cherry-trees.json</code>을
@@ -76,7 +95,10 @@ export function CherryOverview({
                 <button
                   key={stat.district}
                   type="button"
-                  onClick={() => onSelectDistrict(stat.district)}
+                  onClick={() => {
+                    onSelectDistrict(stat.district)
+                    onClose?.()
+                  }}
                   className={`block w-full border-b border-[#ffeef4] px-4 py-3 text-left transition hover:bg-[#fff5f8] ${
                     isActive ? 'border-l-[3px] border-l-[#ff8fab] bg-[#fff0f5]' : ''
                   }`}
@@ -101,7 +123,10 @@ export function CherryOverview({
           </div>
           <button
             type="button"
-            onClick={() => onSelectDistrict(null)}
+            onClick={() => {
+              onSelectDistrict(null)
+              onClose?.()
+            }}
             className={`w-full px-4 py-3 text-left text-xs font-medium transition ${
               selectedDistrict === null
                 ? 'bg-[#fff0f5] text-[#d63384]'
