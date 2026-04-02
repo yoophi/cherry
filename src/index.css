@@ -9,3 +9,7 @@ body,
 body {
   margin: 0;
 }
+
+.leaflet-tile-pane {
+  filter: grayscale(1) brightness(1.05);
+}
