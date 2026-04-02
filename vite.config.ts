@@ -6,4 +6,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig(({ command }) => ({
   base: command === 'build' ? '/cherry/' : '/',
   plugins: [react(), tailwindcss()],
+  server: {
+    host: '0.0.0.0',
+    allowedHosts: true,
+  },
 }))
