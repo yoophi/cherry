@@ -1,20 +1,27 @@
 import type { ReactNode } from 'react'
+import type { CherryTreeDistrictStat } from '../../../entities/cherry-tree/model/selectors'
 
 type CherryOverviewProps = {
   pointCount: number
   districtCount: number
+  districtStats: CherryTreeDistrictStat[]
   selectedDistrict: string | null
   status: 'loading' | 'ready' | 'error'
+  onSelectDistrict: (district: string | null) => void
   filterSlot?: ReactNode
 }
 
 export function CherryOverview({
   pointCount,
   districtCount,
+  districtStats,
   selectedDistrict,
   status,
+  onSelectDistrict,
   filterSlot,
 }: CherryOverviewProps) {
+  const maxCount = districtStats[0]?.count ?? 1
+
   return (
     <aside className="h-full overflow-y-auto border-r border-white/10 bg-[#fff5f8]/95 p-6 text-zinc-800 backdrop-blur">
       <p className="text-xs font-semibold tracking-[0.28em] text-pink-300 uppercase">
@@ -52,6 +59,58 @@ export function CherryOverview({
         </div>
 
         {filterSlot}
+
+        <div className="rounded-2xl border border-[#ffd6e3] bg-white p-0 text-sm text-zinc-700">
+          <div className="border-b border-[#ffeef4] px-4 py-3 font-medium text-zinc-950">
+            구별 리스트
+          </div>
+          <div className="max-h-[42vh] overflow-y-auto">
+            {districtStats.map((stat) => {
+              const isActive = selectedDistrict === stat.district
+              const width = Math.max(
+                6,
+                Math.round((stat.count / maxCount) * 100),
+              )
+
+              return (
+                <button
+                  key={stat.district}
+                  type="button"
+                  onClick={() => onSelectDistrict(stat.district)}
+                  className={`block w-full border-b border-[#ffeef4] px-4 py-3 text-left transition hover:bg-[#fff5f8] ${
+                    isActive ? 'border-l-[3px] border-l-[#ff8fab] bg-[#fff0f5]' : ''
+                  }`}
+                >
+                  <div className="mb-1 flex items-center justify-between gap-3">
+                    <span className="text-[13px] font-semibold text-zinc-800">
+                      {stat.district}
+                    </span>
+                    <span className="text-[13px] font-bold text-[#d63384]">
+                      {stat.count.toLocaleString()}그루
+                    </span>
+                  </div>
+                  <div className="h-1 rounded-full bg-[#ffeef4]">
+                    <div
+                      className="h-full rounded-full bg-[linear-gradient(90deg,#ff8fab,#ffc8dd)]"
+                      style={{ width: `${width}%` }}
+                    />
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+          <button
+            type="button"
+            onClick={() => onSelectDistrict(null)}
+            className={`w-full px-4 py-3 text-left text-xs font-medium transition ${
+              selectedDistrict === null
+                ? 'bg-[#fff0f5] text-[#d63384]'
+                : 'bg-[#fafafa] text-zinc-500 hover:bg-[#fff5f8]'
+            }`}
+          >
+            전체 보기
+          </button>
+        </div>
 
         <div className="rounded-2xl border border-[#ffd6e3] bg-white p-4 text-sm text-zinc-600">
           <div className="font-medium text-zinc-950">현재 상태</div>

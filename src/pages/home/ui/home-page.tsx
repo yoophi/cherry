@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import { getCherryTreeDistrictStats } from '../../../entities/cherry-tree/model/selectors'
 import { useCherryTrees } from '../../../entities/cherry-tree/model/use-cherry-trees'
 import { DistrictFilter } from '../../../features/district-filter/ui/district-filter'
 import { useDistrictFilter } from '../../../features/district-filter/model/use-district-filter'
@@ -14,6 +15,7 @@ export function HomePage() {
     () => new Set(points.map((point) => point.district)).size,
     [points],
   )
+  const districtStats = useMemo(() => getCherryTreeDistrictStats(points), [points])
 
   return (
     <main className="h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#4c0519_0%,#18181b_42%,#09090b_100%)] text-zinc-100">
@@ -21,8 +23,10 @@ export function HomePage() {
         <CherryOverview
           pointCount={filteredPoints.length}
           districtCount={districtCount}
+          districtStats={districtStats}
           selectedDistrict={selectedDistrict}
           status={status}
+          onSelectDistrict={setSelectedDistrict}
           filterSlot={
             <DistrictFilter
               districts={districts}
