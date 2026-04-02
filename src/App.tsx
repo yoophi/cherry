@@ -87,9 +87,20 @@ function CherryClusterLayer({ points }: { points: CherryTreePoint[] }) {
       disableClusteringAtZoom: 17,
       iconCreateFunction(cluster) {
         const count = cluster.getChildCount()
-        const tone =
-          count > 400 ? '#881337' : count > 150 ? '#be123c' : count > 50 ? '#e11d48' : '#fb7185'
-        const size = count > 400 ? 58 : count > 150 ? 52 : count > 50 ? 46 : 40
+        const normalized = Math.min(Math.log10(count + 1) / Math.log10(1000), 1)
+        const size = Math.round(36 + normalized * 28)
+        const outerTone =
+          count > 400
+            ? 'rgba(255,107,157,0.6)'
+            : count > 150
+              ? 'rgba(255,143,171,0.6)'
+              : 'rgba(255,200,221,0.7)'
+        const innerTone =
+          count > 400
+            ? 'rgba(214,51,132,0.8)'
+            : count > 150
+              ? 'rgba(255,107,157,0.8)'
+              : 'rgba(255,143,171,0.8)'
 
         return L.divIcon({
           html: `
@@ -97,17 +108,26 @@ function CherryClusterLayer({ points }: { points: CherryTreePoint[] }) {
               width:${size}px;
               height:${size}px;
               border-radius:9999px;
-              background:${tone};
-              color:white;
               display:flex;
               align-items:center;
               justify-content:center;
-              font-weight:700;
-              font-size:13px;
-              border:3px solid rgba(255,255,255,0.95);
-              box-shadow:0 10px 24px rgba(0,0,0,0.28);
+              background:${outerTone};
+              box-shadow:0 10px 24px rgba(0,0,0,0.18);
             ">
-              ${count}
+              <div style="
+                width:${Math.max(size - 10, 28)}px;
+                height:${Math.max(size - 10, 28)}px;
+                border-radius:9999px;
+                background:${innerTone};
+                color:white;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:700;
+                font-size:${Math.max(12, Math.round(size * 0.28))}px;
+              ">
+                ${count}
+              </div>
             </div>
           `,
           className: '',
@@ -118,10 +138,10 @@ function CherryClusterLayer({ points }: { points: CherryTreePoint[] }) {
     })
 
     const pointIcon = L.divIcon({
-      html: '<div style="width:10px;height:10px;border-radius:9999px;background:#ffe4ef;border:2px solid #be123c;box-shadow:0 4px 10px rgba(190,24,93,0.25);"></div>',
+      html: '<div style="width:8px;height:8px;border-radius:9999px;background:#ff8fab;border:1.5px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>',
       className: '',
-      iconSize: [10, 10],
-      iconAnchor: [5, 5],
+      iconSize: [8, 8],
+      iconAnchor: [4, 4],
     })
 
     const markers = points.map((point) =>
