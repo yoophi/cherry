@@ -1,13 +1,19 @@
+import type { ReactNode } from 'react'
+
 type CherryOverviewProps = {
   pointCount: number
   districtCount: number
+  selectedDistrict: string | null
   status: 'loading' | 'ready' | 'error'
+  filterSlot?: ReactNode
 }
 
 export function CherryOverview({
   pointCount,
   districtCount,
+  selectedDistrict,
   status,
+  filterSlot,
 }: CherryOverviewProps) {
   return (
     <aside className="rounded-[28px] border border-white/10 bg-white/6 p-6 shadow-2xl shadow-black/25 backdrop-blur">
@@ -40,7 +46,12 @@ export function CherryOverview({
               </div>
             </div>
           </div>
+          <div className="mt-3 text-xs text-pink-100">
+            현재 선택: {selectedDistrict ?? '전체'}
+          </div>
         </div>
+
+        {filterSlot}
 
         <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-zinc-300">
           <div className="font-medium text-white">현재 상태</div>
