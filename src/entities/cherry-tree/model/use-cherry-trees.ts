@@ -13,7 +13,8 @@ export function useCherryTrees() {
     async function loadCherryTrees() {
       try {
         setStatus('loading')
-        const response = await fetch('/data/cherry-trees.json')
+        const dataUrl = new URL('data/cherry-trees.json', import.meta.env.BASE_URL)
+        const response = await fetch(dataUrl)
         if (!response.ok) {
           throw new Error(`Failed to load cherry tree data: ${response.status}`)
         }
