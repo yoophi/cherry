@@ -4,7 +4,7 @@ import 'leaflet.markercluster'
 import { useMap } from 'react-leaflet'
 import type { CherryTreePoint } from '../../../entities/cherry-tree/model/types'
 import {
-  cherryPointIcon,
+  createCherryPointIcon,
   createCherryClusterIcon,
 } from '../../../shared/lib/map/cherry-cluster-icon'
 
@@ -31,7 +31,7 @@ export function CherryClusterLayer({ points }: CherryClusterLayerProps) {
     })
 
     const markers = points.map((point) =>
-      L.marker([point.lat, point.lng], { icon: cherryPointIcon }).bindPopup(
+      L.marker([point.lat, point.lng], { icon: createCherryPointIcon() }).bindPopup(
         `
           <div style="min-width:180px;font-family:system-ui,sans-serif;">
             <div style="font-weight:700;color:#9f1239;">${point.district}</div>

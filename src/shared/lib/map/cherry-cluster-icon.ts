@@ -1,11 +1,26 @@
 import L from 'leaflet'
 
-export const cherryPointIcon = L.divIcon({
-  html: '<div style="width:8px;height:8px;border-radius:9999px;background:#ff8fab;border:1.5px solid white;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>',
-  className: '',
-  iconSize: [8, 8],
-  iconAnchor: [4, 4],
-})
+export function createCherryPointIcon() {
+  return L.divIcon({
+    html: `
+      <div style="
+        width:5px;
+        height:5px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border-radius:9999px;
+        background:#ff8fab;
+        border:1px solid white;
+        box-shadow:0 1px 3px rgba(0,0,0,0.3);
+      ">
+      </div>
+    `,
+    className: '',
+    iconSize: [5, 5],
+    iconAnchor: [2.5, 2.5],
+  })
+}
 
 export function createCherryClusterIcon(count: number) {
   const normalized = Math.min(Math.log10(count + 1) / Math.log10(1000), 1)
