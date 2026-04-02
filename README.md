@@ -1,73 +1,99 @@
-# React + TypeScript + Vite
+# Cherry
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+서울 벚꽃 위치 데이터를 기반으로 만든 지도 프로젝트입니다.  
+React + Vite + TypeScript + Tailwind CSS v4 + Leaflet 조합으로 구성되어 있고, 실제 데이터는 `public/data/cherry-trees.json`을 사용합니다.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- Vite 8
+- TypeScript
+- Tailwind CSS v4
+- Leaflet
+- `leaflet.markercluster`
+- `leaflet.heat`
 
-## React Compiler
+## Run
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+기본 개발 서버:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `http://localhost:5173`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Build
+
+```bash
+npm run build
 ```
+
+GitHub Pages용 빌드:
+
+```bash
+npm run build:pages
+```
+
+## Data
+
+실제 위치 데이터:
+
+- `public/data/cherry-trees.json`
+
+데이터 필드:
+
+- `id`
+- `lat`
+- `lng`
+- `district`
+- `roadAddress`
+- `heightM`
+- `diameterCm`
+
+## Project Structure
+
+현재 구조는 FSD 스타일을 따릅니다.
+
+```text
+src/
+  app/
+  pages/
+  widgets/
+  features/
+  entities/
+  shared/
+```
+
+핵심 파일:
+
+- 앱 엔트리: `src/app/App.tsx`
+- 홈 페이지: `src/pages/home/ui/home-page.tsx`
+- 지도 위젯: `src/widgets/cherry-map/ui/cherry-map.tsx`
+- 사이드바 위젯: `src/widgets/cherry-overview/ui/cherry-overview.tsx`
+- 데이터 로더: `src/entities/cherry-tree/model/use-cherry-trees.ts`
+
+## GitHub Pages Deployment
+
+이 저장소는 GitHub Actions로 GitHub Pages에 배포되도록 설정되어 있습니다.
+
+배포 URL:
+
+- `https://yoophi.github.io/cherry/`
+
+동작 방식:
+
+1. `main` 브랜치에 push
+2. GitHub Actions가 `npm ci` → `npm run build`
+3. `dist/`를 GitHub Pages에 배포
+
+필요한 GitHub 설정:
+
+1. GitHub 저장소 `Settings`
+2. `Pages`
+3. `Source`를 `GitHub Actions`로 설정
+
+워크플로 파일:
+
+- `.github/workflows/deploy.yml`
