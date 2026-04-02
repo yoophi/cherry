@@ -70,14 +70,25 @@ export function HomePage() {
         ) : null}
 
         <div className="relative h-full min-h-0">
-          <button
-            type="button"
-            onClick={() => setIsMobileSidebarOpen(true)}
-            className="absolute top-4 left-4 z-[900] inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white shadow-lg backdrop-blur transition hover:bg-black/55 lg:hidden"
-            aria-label="사이드바 열기"
-          >
-            <span className="text-xl leading-none">☰</span>
-          </button>
+          <div className="fixed top-4 right-4 z-[1200] flex items-center gap-2 lg:hidden">
+            <button
+              type="button"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black/45 text-white shadow-lg backdrop-blur transition hover:bg-black/55"
+              aria-label="사이드바 열기"
+            >
+              <span className="text-xl leading-none">☰</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsMobileSidebarOpen(true)}
+              className="inline-flex h-11 max-w-[calc(100vw-5.5rem)] items-center rounded-full border border-white/20 bg-black/45 px-4 text-sm font-medium text-white shadow-lg backdrop-blur transition hover:bg-black/55"
+            >
+              <span className="truncate">
+                {selectedDistrict ? `${selectedDistrict} 필터` : '전체 필터'}
+              </span>
+            </button>
+          </div>
 
           <CherryMap points={filteredPoints} />
         </div>

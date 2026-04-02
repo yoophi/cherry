@@ -10,9 +10,13 @@ import {
 
 type CherryClusterLayerProps = {
   points: CherryTreePoint[]
+  isMobile?: boolean
 }
 
-export function CherryClusterLayer({ points }: CherryClusterLayerProps) {
+export function CherryClusterLayer({
+  points,
+  isMobile = false,
+}: CherryClusterLayerProps) {
   const map = useMap()
 
   useEffect(() => {
@@ -21,10 +25,10 @@ export function CherryClusterLayer({ points }: CherryClusterLayerProps) {
     }
 
     const clusterGroup = L.markerClusterGroup({
-      maxClusterRadius: 42,
+      maxClusterRadius: isMobile ? 34 : 42,
       showCoverageOnHover: false,
-      spiderfyOnMaxZoom: true,
-      disableClusteringAtZoom: 17,
+      spiderfyOnMaxZoom: !isMobile,
+      disableClusteringAtZoom: isMobile ? 16 : 17,
       iconCreateFunction(cluster) {
         return createCherryClusterIcon(cluster.getChildCount())
       },
@@ -50,7 +54,7 @@ export function CherryClusterLayer({ points }: CherryClusterLayerProps) {
     return () => {
       map.removeLayer(clusterGroup)
     }
-  }, [map, points])
+  }, [isMobile, map, points])
 
   return null
 }
