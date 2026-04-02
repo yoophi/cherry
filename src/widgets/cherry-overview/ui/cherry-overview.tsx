@@ -16,45 +16,45 @@ export function CherryOverview({
   filterSlot,
 }: CherryOverviewProps) {
   return (
-    <aside className="rounded-[28px] border border-white/10 bg-white/6 p-6 shadow-2xl shadow-black/25 backdrop-blur">
+    <aside className="h-full overflow-y-auto border-r border-white/10 bg-[#fff5f8]/95 p-6 text-zinc-800 backdrop-blur">
       <p className="text-xs font-semibold tracking-[0.28em] text-pink-300 uppercase">
         Real Dataset Heatmap
       </p>
-      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white">
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight text-zinc-950">
         서울 벚꽃 지도
       </h1>
-      <p className="mt-3 text-sm leading-6 text-zinc-300">
+      <p className="mt-3 text-sm leading-6 text-zinc-600">
         실제 프로젝트에서 추출한 벚꽃 나무 위치 데이터를 불러와 히트맵으로
         표시합니다. 현재 화면은 <code>public/data/cherry-trees.json</code>을
         기준으로 렌더링되며, 원본처럼 숫자 클러스터도 함께 보입니다.
       </p>
 
       <div className="mt-8 space-y-3">
-        <div className="rounded-2xl border border-pink-300/20 bg-pink-300/10 p-4">
-          <div className="text-sm font-medium text-pink-200">데이터 상태</div>
+        <div className="rounded-2xl border border-pink-300/30 bg-pink-300/12 p-4">
+          <div className="text-sm font-medium text-[#d63384]">데이터 상태</div>
           <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="text-zinc-400">레코드 수</div>
-              <div className="mt-1 text-xl font-semibold text-white">
+            <div className="rounded-2xl border border-[#ffd6e3] bg-white p-3">
+              <div className="text-zinc-500">레코드 수</div>
+              <div className="mt-1 text-xl font-semibold text-zinc-950">
                 {pointCount.toLocaleString()}
               </div>
             </div>
-            <div className="rounded-2xl border border-white/10 bg-black/20 p-3">
-              <div className="text-zinc-400">행정구역 수</div>
-              <div className="mt-1 text-xl font-semibold text-white">
+            <div className="rounded-2xl border border-[#ffd6e3] bg-white p-3">
+              <div className="text-zinc-500">행정구역 수</div>
+              <div className="mt-1 text-xl font-semibold text-zinc-950">
                 {districtCount.toLocaleString()}
               </div>
             </div>
           </div>
-          <div className="mt-3 text-xs text-pink-100">
+          <div className="mt-3 text-xs text-[#d63384]">
             현재 선택: {selectedDistrict ?? '전체'}
           </div>
         </div>
 
         {filterSlot}
 
-        <div className="rounded-2xl border border-white/10 bg-black/20 p-4 text-sm text-zinc-300">
-          <div className="font-medium text-white">현재 상태</div>
+        <div className="rounded-2xl border border-[#ffd6e3] bg-white p-4 text-sm text-zinc-600">
+          <div className="font-medium text-zinc-950">현재 상태</div>
           <ul className="mt-3 space-y-2">
             <li>
               데이터 로드:{' '}

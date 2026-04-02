@@ -16,8 +16,8 @@ export function HomePage() {
   )
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,#4c0519_0%,#18181b_42%,#09090b_100%)] text-zinc-100">
-      <div className="mx-auto grid min-h-screen max-w-7xl gap-6 px-4 py-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+    <main className="h-screen overflow-hidden bg-[radial-gradient(circle_at_top,#4c0519_0%,#18181b_42%,#09090b_100%)] text-zinc-100">
+      <div className="grid h-full grid-cols-1 lg:grid-cols-[320px_minmax(0,1fr)]">
         <CherryOverview
           pointCount={filteredPoints.length}
           districtCount={districtCount}

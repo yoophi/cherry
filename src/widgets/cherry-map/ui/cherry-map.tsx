@@ -14,17 +14,8 @@ type CherryMapProps = {
 
 export function CherryMap({ points }: CherryMapProps) {
   return (
-    <section className="overflow-hidden rounded-[28px] border border-white/10 bg-zinc-900 shadow-2xl shadow-black/30">
-      <div className="border-b border-white/10 px-5 py-4">
-        <div className="text-sm font-medium text-white">
-          Leaflet Heatmap + Cluster Counts
-        </div>
-        <div className="mt-1 text-sm text-zinc-400">
-          OpenStreetMap 위에 실제 벚꽃 나무 밀도와 클러스터 개수를 함께 표시
-        </div>
-      </div>
-
-      <div className="h-[70vh] min-h-[520px]">
+    <section className="h-full min-h-0">
+      <div className="h-full w-full">
         <MapContainer
           center={seoulCenter}
           zoom={12}
