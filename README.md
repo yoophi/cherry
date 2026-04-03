@@ -1,7 +1,7 @@
 # Cherry
 
 서울 벚꽃 위치 데이터를 기반으로 만든 지도 프로젝트입니다.  
-React + Vite + TypeScript + Tailwind CSS v4 + Leaflet 조합으로 구성되어 있고, 실제 데이터는 `public/data/cherry-trees.json`을 사용합니다.
+React + Vite + TypeScript + Tailwind CSS v4 조합으로 구성되어 있고, 실제 데이터는 `public/data/cherry-trees.json`을 사용합니다. 지도 공급자는 환경변수로 `osm` 또는 `kakao`를 선택할 수 있습니다.
 
 ## Stack
 
@@ -12,6 +12,7 @@ React + Vite + TypeScript + Tailwind CSS v4 + Leaflet 조합으로 구성되어 
 - Leaflet
 - `leaflet.markercluster`
 - `leaflet.heat`
+- Kakao Maps JavaScript SDK
 
 ## Run
 
@@ -19,6 +20,17 @@ React + Vite + TypeScript + Tailwind CSS v4 + Leaflet 조합으로 구성되어 
 npm install
 npm run dev
 ```
+
+환경변수 설정:
+
+```bash
+cp .env.example .env
+```
+
+사용 가능한 환경변수:
+
+- `VITE_MAP_PROVIDER=osm | kakao`
+- `VITE_KAKAO_MAPS_APP_KEY=...`
 
 기본 개발 서버:
 
@@ -71,8 +83,11 @@ src/
 - 앱 엔트리: `src/app/App.tsx`
 - 홈 페이지: `src/pages/home/ui/home-page.tsx`
 - 지도 위젯: `src/widgets/cherry-map/ui/cherry-map.tsx`
+- OSM 구현: `src/widgets/cherry-map/providers/osm/ui/osm-cherry-map.tsx`
+- Kakao 구현: `src/widgets/cherry-map/providers/kakao/ui/kakao-cherry-map.tsx`
 - 사이드바 위젯: `src/widgets/cherry-overview/ui/cherry-overview.tsx`
 - 데이터 로더: `src/entities/cherry-tree/model/use-cherry-trees.ts`
+- 공급자 설정: `src/shared/config/map-provider.ts`
 
 ## GitHub Pages Deployment
 

@@ -15,6 +15,7 @@
 - Leaflet
 - `leaflet.markercluster`
 - `leaflet.heat`
+- Kakao Maps JavaScript SDK
 
 ## 아키텍처 원칙
 
@@ -24,6 +25,8 @@
 - `features`는 사용자 액션/상태
 - `entities`는 도메인 타입/selector/data loader
 - `shared`는 공통 유틸/설정
+- 지도 공급자 선택은 환경변수로 제어
+- 공통 지도 기능은 상위 `CherryMap`에서 provider adapter로 분기
 
 현재 `features`에는 `district-filter`만 존재합니다.
 
@@ -32,10 +35,14 @@
 - `src/app/App.tsx`
 - `src/pages/home/ui/home-page.tsx`
 - `src/widgets/cherry-map/ui/*`
+- `src/widgets/cherry-map/providers/osm/*`
+- `src/widgets/cherry-map/providers/kakao/*`
+- `src/widgets/cherry-map/model/*`
 - `src/widgets/cherry-overview/ui/*`
 - `src/features/district-filter/*`
 - `src/entities/cherry-tree/model/*`
 - `src/shared/lib/map/*`
+- `src/shared/config/map-provider.ts`
 
 ## 데이터 관련
 
@@ -57,13 +64,21 @@
 
 ## 지도 구현 상태
 
-- OSM 타일 사용
+- 현재 공급자:
+  - `VITE_MAP_PROVIDER=osm` 이면 Leaflet + OSM
+  - `VITE_MAP_PROVIDER=kakao` 이면 Kakao Maps SDK
 - 타일은 grayscale + brightness 필터 적용
-- 히트맵은 원본 팔레트 적용
-- 클러스터는 원형 + 숫자 형태
+- 히트맵/클러스터는 공통 기능으로 유지
+- OSM:
+  - `leaflet.heat`
+  - `leaflet.markercluster`
+- Kakao:
+  - 공식 `clusterer` 라이브러리
+  - heatmap은 별도 공식 레이어가 아니라 canvas overlay로 구현
 - 개별 마커는 작은 핑크 원 + 흰색 테두리
 - 구 필터는 FSD `features/district-filter`로 분리됨
 - 사이드바에는 구별 리스트와 막대 그래프가 있음
+- 모바일에서는 zoom level에 따라 샘플링 강도를 조절
 
 ## 디자인 관련 결정
 
@@ -90,6 +105,14 @@
 - `vite.config.ts`에서 build 시 `base`를 `/cherry/`로 설정
 - GitHub Pages는 GitHub Actions로 배포
 - 워크플로 파일: `.github/workflows/deploy.yml`
+- Kakao를 쓸 경우 런타임에 `VITE_KAKAO_MAPS_APP_KEY`가 필요
+
+환경변수 예시:
+
+```bash
+VITE_MAP_PROVIDER=osm
+VITE_KAKAO_MAPS_APP_KEY=
+```
 
 배포 절차:
 
